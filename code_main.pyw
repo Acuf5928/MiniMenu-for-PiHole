@@ -1,4 +1,4 @@
-import gui_systry
+import gui_systray
 
 if __name__ == "__main__":
-    gui_systry.main("icon.png")
+    gui_systray.main("icon.png")
