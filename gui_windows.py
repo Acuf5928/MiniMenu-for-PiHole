@@ -20,8 +20,7 @@ class App(QtWidgets.QMainWindow):
         self.title = 'MiniMenu for PiHole'
         self.initUI()
 
-#Init Ui
-        
+#Init Ui   
     def initUI(self):
         self.setWindowTitle(self.title)
 
@@ -83,22 +82,19 @@ class App(QtWidgets.QMainWindow):
         _thread.start_new_thread(self.updateBackground, ("http://" + self.ip + "/admin/api.php", ))
 
 #Update in backgroud status bar info
-
     def updateBackground(self, url):
         while True:
             self.risp(url)
             time.sleep(5)
 
-#Functions for Disactive buttons
-
+#Functions for Disactive button
     def dis(self):
         self.saveNewData()
 
         url = "http://" + self.ip + "/admin/api.php?disable=" + self.textbox2.text() + "&auth=" + self.key
         self.risp(url)
 
-#Functions for Active buttons
-
+#Functions for Active button
     def att(self):
         self.saveNewData()
 
@@ -106,7 +102,6 @@ class App(QtWidgets.QMainWindow):
         self.risp(url)
 
 #Send comand to PiHole server and update interface
-
     def risp(self, url):
         risp = helper.ricercaInfo(url)
 
@@ -117,7 +112,6 @@ class App(QtWidgets.QMainWindow):
             self.statusBar().showMessage("Status: Disactive")
 
 #Update saved info
-
     def saveNewData(self):
         ip = self.textbox.text()
         key = self.textbox1.text()
@@ -129,7 +123,6 @@ class App(QtWidgets.QMainWindow):
         self.key = key
 
 #Prevent program exit when clik on X button 
-
     def closeEvent(self, event):
         self.hide()
         event.ignore()
