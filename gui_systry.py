@@ -22,14 +22,19 @@ class SystemTrayIcon(QtWidgets.QSystemTrayIcon):
     def setMenu(self):
         self.menu.clear()
 
-        self.pause = self.menu.addAction("Disactive")
-        self.pause.triggered.connect(self.setPause)
+        self.status = self.menu.addAction("Status: Disactive")
+        self.status.setEnabled(False)
+
+        self.menu.addSeparator()
         
-        self.windows = self.menu.addAction("Windows")
-        self.windows.triggered.connect(self.openWindows)
+        self.switch = self.menu.addAction("Switch status")
+        self.switch.triggered.connect(self.setPause)
 
         self.update = self.menu.addAction("Update")
         self.update.triggered.connect(self.setUpdate)
+        
+        self.windows = self.menu.addAction("Windows")
+        self.windows.triggered.connect(self.openWindows)
 
         exitAction = self.menu.addAction("Exit")
         exitAction.triggered.connect(self.exit)
@@ -40,12 +45,12 @@ class SystemTrayIcon(QtWidgets.QSystemTrayIcon):
 
     def setPause(self):
         self.updateInterface(self.url)
-
-    def openWindows(self):
-        self.window = gui_windows.App()
     
     def setUpdate(self):
         self.updateInterface("http://" + self.ip + "/admin/api.php")
+
+    def openWindows(self):
+        self.window = gui_windows.App()
     
     def exit(self):
         sys.exit()
@@ -65,10 +70,10 @@ class SystemTrayIcon(QtWidgets.QSystemTrayIcon):
         risp = helper.ricercaInfo(url)
         if risp == True:
             self.url = "http://" + self.ip + "/admin/api.php?disable=&auth=" + self.key
-            self.pause.setText("Active")
+            self.status.setText("Status: Active")
         elif risp == False:
             self.url = "http://" + self.ip + "/admin/api.php?enable=&auth=" + self.key
-            self.pause.setText("Disactive")
+            self.status.setText("Status: Disactive")
 
 def main(image):
     app = QtWidgets.QApplication(sys.argv)
