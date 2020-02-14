@@ -77,8 +77,6 @@ class App(QtWidgets.QMainWindow):
 
         self.statusBar().showMessage('Status: Searcing info')
 
-        self.show()
-
         _thread.start_new_thread(self.updateBackground, ("http://" + self.ip + "/admin/api.php", ))
 
 #Update in backgroud status bar info
@@ -107,9 +105,11 @@ class App(QtWidgets.QMainWindow):
 
         if risp == True:
             self.statusBar().showMessage("Status: Active")
+            self.sysTray.setUpdate()
 
         elif risp == False:
             self.statusBar().showMessage("Status: Disactive")
+            self.sysTray.setUpdate()
 
 #Update saved info
     def saveNewData(self):
@@ -121,6 +121,10 @@ class App(QtWidgets.QMainWindow):
         
         self.ip = ip
         self.key = key
+
+#Set reference to sysTray
+    def setSysTray(self, sysTray):
+        self.sysTray = sysTray
 
 #Prevent program exit when clik on X button 
     def closeEvent(self, event):

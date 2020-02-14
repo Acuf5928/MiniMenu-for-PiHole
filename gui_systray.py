@@ -52,6 +52,8 @@ class SystemTrayIcon(QtWidgets.QSystemTrayIcon):
 
     def openWindows(self):
         self.window = gui_windows.App()
+        self.window.setSysTray(self)
+        self.window.show()
     
     def exit(self):
         sys.exit()
