@@ -18,21 +18,14 @@ class App(QtWidgets.QMainWindow):
         self.setMaximumSize(QtCore.QSize(500, 180))
 
         self.title = 'MiniMenu for PiHole'
-        self.tryPause = None
-        
-    def setTryPause(self, pause):
-        self.tryPause = pause
+        self.initUI()
+
+#Init Ui
         
     def initUI(self):
         self.setWindowTitle(self.title)
 
-        try:
-            self.data = helper.aprifile("data.txt")
-        except Exception:
-            self.data = ["pi.hole", ""]
-
-        self.ip = self.data[0]
-        self.key = self.data[1]
+        self.ip, self.key = helper.readKey()
 
         # Create textbox
         self.textbox = QtWidgets.QLineEdit(self)
@@ -89,49 +82,54 @@ class App(QtWidgets.QMainWindow):
 
         _thread.start_new_thread(self.updateBackground, ("http://" + self.ip + "/admin/api.php", ))
 
+#Update in backgroud status bar info
+
     def updateBackground(self, url):
         while True:
             self.risp(url)
             time.sleep(5)
 
+#Functions for Disactive buttons
+
     def dis(self):
-        self.ip = self.textbox.text()
-        self.key = self.textbox1.text()
+        self.saveNewData()
 
-        helper.scrivifile(self.ip + "\n" + self.key, "data.txt")
-
-        temp = self.textbox2.text()
-
-        url = "http://" + self.ip + "/admin/api.php?disable=" + temp + "&auth=" + self.key
+        url = "http://" + self.ip + "/admin/api.php?disable=" + self.textbox2.text() + "&auth=" + self.key
         self.risp(url)
 
-    def att(self):
-        self.ip = self.textbox.text()
-        self.key = self.textbox1.text()
+#Functions for Active buttons
 
-        helper.scrivifile(self.ip + "\n" + self.key, "data.txt")
+    def att(self):
+        self.saveNewData()
 
         url = "http://" + self.ip + "/admin/api.php?enable&auth=" + self.key
         self.risp(url)
 
+#Send comand to PiHole server and update interface
+
     def risp(self, url):
-        risp = helper.ricercainfo(url)
+        risp = helper.ricercaInfo(url)
 
         if risp == True:
             self.statusBar().showMessage("Status: Active")
-            if(self.tryPause != None):
-                self.tryPause
 
         elif risp == False:
             self.statusBar().showMessage("Status: Disactive")
-            if(self.tryPause != None):
-                self.tryPause
+
+#Update saved info
+
+    def saveNewData(self):
+        ip = self.textbox.text()
+        key = self.textbox1.text()
+
+        if(ip != self.ip or key != self.key):
+            helper.saveKey(ip, key, "data.txt")
+        
+        self.ip = ip
+        self.key = key
+
+#Prevent program exit when clik on X button 
 
     def closeEvent(self, event):
         self.hide()
         event.ignore()
-        
-if __name__ == '__main__':
-    app = QtWidgets.QApplication(sys.argv)
-    ex = App()
-    sys.exit(app.exec_())

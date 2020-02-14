@@ -26,7 +26,7 @@ def scrivifile(text, percorso):
     except Exception as er:
         print("Impossibile scrivere file " + str(er))
 
-def ricercainfo(url):
+def ricercaInfo(url):
         try:
             with requests.get(url) as status:
                 json_string = status.content
@@ -42,13 +42,16 @@ def ricercainfo(url):
             print(es)
             return None
 
-def update_info():
+def readKey():
     try:
         data = aprifile("data.txt")
         return(data[0], data[1])
 
     except Exception:
         return("pi.hole", "")
+
+def saveKey(ip, key, path):
+    scrivifile(ip + "\n" + key, path)
 
 #def resource_path(relative_path):
 #    if hasattr(sys, '_MEIPASS'):

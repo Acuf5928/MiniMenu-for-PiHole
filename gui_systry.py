@@ -17,8 +17,7 @@ class SystemTrayIcon(QtWidgets.QSystemTrayIcon):
         self.setMenu()
         self.setPause()
 
-    def updateKey(self):
-        self.ip, self.key = helper.update_info()
+#Init sysTray
 
     def setMenu(self):
         self.menu.clear()
@@ -30,41 +29,46 @@ class SystemTrayIcon(QtWidgets.QSystemTrayIcon):
         self.windows.triggered.connect(self.openWindows)
 
         self.update = self.menu.addAction("Update")
-        self.update.triggered.connect(self.updateInterface)
+        self.update.triggered.connect(self.setUpdate)
 
         exitAction = self.menu.addAction("Exit")
         exitAction.triggered.connect(self.exit)
         
         self.setContextMenu(self.menu)
 
-    def openWindows(self):
-        self.window = gui_windows.App()
-        self.window.setTryPause(self.updateInterface())
-        self.window.initUI()
-        self.window.show()
-
-    def updateInterface(self):
-        self.updateKey()
-
-        risp = helper.ricercainfo("http://" + self.ip + "/admin/api.php")
-        if risp == True:
-            self.pause.setText("Active")
-        elif risp == False:
-            self.pause.setText("Disactive")
+#Set functions of all menu elements, from here:
 
     def setPause(self):
-        risp = helper.ricercainfo(self.url)
+        self.updateInterface(self.url)
 
+    def openWindows(self):
+        self.window = gui_windows.App()
+    
+    def setUpdate(self):
+        self.updateInterface("http://" + self.ip + "/admin/api.php")
+    
+    def exit(self):
+        sys.exit()
+
+#To here
+
+#Read saved key
+
+    def updateKey(self):
+        self.ip, self.key = helper.readKey()
+
+#Send comand to PiHole server and update interface
+
+    def updateInterface(self, url):
+        self.updateKey()
+
+        risp = helper.ricercaInfo(url)
         if risp == True:
             self.url = "http://" + self.ip + "/admin/api.php?disable=&auth=" + self.key
             self.pause.setText("Active")
-
         elif risp == False:
             self.url = "http://" + self.ip + "/admin/api.php?enable=&auth=" + self.key
             self.pause.setText("Disactive")
-        
-    def exit(self):
-        sys.exit()
 
 def main(image):
     app = QtWidgets.QApplication(sys.argv)
@@ -72,6 +76,3 @@ def main(image):
     trayIcon = SystemTrayIcon(QtGui.QIcon(image), w)
     trayIcon.show()
     sys.exit(app.exec_())
-
-if __name__ == "__main__":
-    main("icon.png")
