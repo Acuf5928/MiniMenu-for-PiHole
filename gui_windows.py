@@ -105,11 +105,14 @@ class App(QtWidgets.QMainWindow):
 
         if risp == True:
             self.statusBar().showMessage("Status: Active")
-            self.sysTray.setUpdate()
 
         elif risp == False:
             self.statusBar().showMessage("Status: Disactive")
-            self.sysTray.setUpdate()
+        
+        elif risp == None:
+            self.statusBar().showMessage("Status: Server not found")
+        
+        self.sysTray.setUpdate()
 
 #Update saved info
     def saveNewData(self):

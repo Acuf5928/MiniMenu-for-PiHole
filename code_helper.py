@@ -28,15 +28,17 @@ def scrivifile(text, percorso):
 
 def ricercaInfo(url):
         try:
-            with requests.get(url) as status:
+            with requests.get(url = url, timeout= 0.700) as status:
                 json_string = status.content
                 parsed_json = json.loads(json_string)
                 status = parsed_json['status']
                 
                 if(status == "enabled"):
                     return True
-                else:
+                elif(status == "disabled"):
                     return False
+                else:
+                    return None
 
         except Exception as es:
             print(es)

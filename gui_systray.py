@@ -85,6 +85,8 @@ class SystemTrayIcon(QtWidgets.QSystemTrayIcon):
         elif risp == False:
             self.url = "http://" + self.ip + "/admin/api.php?enable=&auth=" + self.key
             self.setPersonalStatus("Status: Disactive")
+        elif risp == None:
+            self.setPersonalStatus("Status: Server not found")
 
 #Start gui_sysTray
 def main(image):
