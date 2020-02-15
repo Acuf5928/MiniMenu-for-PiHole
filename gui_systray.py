@@ -30,9 +30,6 @@ class SystemTrayIcon(QtWidgets.QSystemTrayIcon):
         
         self.switch = self.menu.addAction("Switch status")
         self.switch.triggered.connect(self.setPause)
-
-        self.update = self.menu.addAction("Update status")
-        self.update.triggered.connect(self.setUpdate)
         
         self.windows = self.menu.addAction("Windows")
         self.windows.triggered.connect(self.openWindows)
@@ -59,7 +56,7 @@ class SystemTrayIcon(QtWidgets.QSystemTrayIcon):
         sys.exit()
 #To here
 
-#Override Right click fun
+#Override click on systray icon fun
     def iconActivated(self, reason):
         if reason == 1:
             super()

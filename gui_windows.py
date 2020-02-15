@@ -120,7 +120,7 @@ class App(QtWidgets.QMainWindow):
         key = self.textbox1.text()
 
         if(ip != self.ip or key != self.key):
-            helper.saveKey(ip, key, "data.txt")
+            helper.saveKey(ip, key)
         
         self.ip = ip
         self.key = key

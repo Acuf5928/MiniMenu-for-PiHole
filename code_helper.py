@@ -4,28 +4,6 @@ import time
 import sys
 import os
 
-def aprifile(percorso):
-    try:
-        with open(percorso, "r") as ptrfile:
-            settings = ptrfile.readlines()
-
-            for a in range(0, len(settings)):
-                if settings[a][-1] == "\n":
-                    settings[a] = settings[a][:-1]
-
-            return (settings)
-
-    except Exception:
-        return(["pi.hole", ""])
-
-def scrivifile(text, percorso):
-    try:
-        with open(percorso, "w") as ptrfile:
-            ptrfile.write(text)
-
-    except Exception as er:
-        print("Impossibile scrivere file " + str(er))
-
 def ricercaInfo(url):
         try:
             with requests.get(url = url, timeout= 0.700) as status:
@@ -46,15 +24,19 @@ def ricercaInfo(url):
 
 def readKey():
     try:
-        data = aprifile("data.txt")
-        return(data[0], data[1])
+        with open("key", "r") as read_file:
+            data = json.load(read_file)     
+            return(data["ip"], data["key"])
 
     except Exception:
         return("pi.hole", "")
 
-def saveKey(ip, key, path):
-    scrivifile(ip + "\n" + key, path)
+def saveKey(ip, key):
+    data = {"ip": ip, "key": key}
 
+    with open("key", "w") as write_file:
+        json.dump(data, write_file, indent=4)
+    
 #def resource_path(relative_path):
 #    if hasattr(sys, '_MEIPASS'):
 #        return os.path.join(sys._MEIPASS, relative_path)
