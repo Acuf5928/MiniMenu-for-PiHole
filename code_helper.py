@@ -4,9 +4,12 @@ import time
 import sys
 import os
 
+FILE_POSITION = "key"
+TIMEOUT = 1.000
+
 def ricercaInfo(url):
         try:
-            with requests.get(url = url, timeout= 0.700) as status:
+            with requests.get(url = url, timeout = TIMEOUT) as status:
                 json_string = status.content
                 parsed_json = json.loads(json_string)
                 status = parsed_json['status']
@@ -24,7 +27,7 @@ def ricercaInfo(url):
 
 def readKey():
     try:
-        with open("key", "r") as read_file:
+        with open(FILE_POSITION, "r") as read_file:
             data = json.load(read_file)     
             return(data["ip"], data["key"])
 
@@ -34,7 +37,7 @@ def readKey():
 def saveKey(ip, key):
     data = {"ip": ip, "key": key}
 
-    with open("key", "w") as write_file:
+    with open(FILE_POSITION, "w") as write_file:
         json.dump(data, write_file, indent=4)
     
 #def resource_path(relative_path):
