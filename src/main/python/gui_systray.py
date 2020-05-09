@@ -4,8 +4,8 @@ import sys
 import PyQt5.QtGui as QtGui
 import PyQt5.QtWidgets as QtWidgets
 
-from src.main.python import gui_windows, code_helper as helper
-from src.main.python.appContext import AppContext
+import gui_windows, code_helper as helper
+from appContext import AppContext
 
 
 class SystemTrayIcon(QtWidgets.QSystemTrayIcon):

@@ -5,7 +5,7 @@ import PyQt5.QtCore as QtCore
 import PyQt5.QtGui as QtGui
 import PyQt5.QtWidgets as QtWidgets
 
-from src.main.python import code_helper as helper
+import code_helper as helper
 
 
 class App(QtWidgets.QMainWindow):

@@ -50,6 +50,10 @@ FunctionEnd
     !define MUI_FINISHPAGE_RUN_CHECKED
     !define MUI_FINISHPAGE_RUN_TEXT "Run MiniMenu"
     !define MUI_FINISHPAGE_RUN_FUNCTION "LaunchLink"
+    !define MUI_FINISHPAGE_SHOWREADME
+    !define MUI_FINISHPAGE_SHOWREADME_TEXT "Launch on startup"
+    !define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
+    !define MUI_FINISHPAGE_SHOWREADME_FUNCTION "startup"
   !insertmacro MUI_PAGE_FINISH
 
   !insertmacro MUI_UNPAGE_CONFIRM
@@ -92,10 +96,15 @@ Section "Uninstall"
   Delete "$SMPROGRAMS\MiniMenu.lnk"
   DeleteRegKey /ifempty SHCTX "Software\MiniMenu"
   DeleteRegKey SHCTX "${UNINST_KEY}"
+  DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Run" "MiniMenu"
 
 SectionEnd
 
 Function LaunchLink
   !addplugindir "."
   ShellExecAsUser::ShellExecAsUser "open" "$SMPROGRAMS\MiniMenu.lnk"
+FunctionEnd
+
+Function startup
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Run" "MiniMenu" '"$InstDir\MiniMenu.exe"'
 FunctionEnd
