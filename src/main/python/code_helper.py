@@ -1,5 +1,5 @@
 import json
-
+import os
 import requests
 
 TIMEOUT = 1.000
@@ -26,7 +26,7 @@ def ricercaInfo(url):
 
 def readKey(filePosition):
     try:
-        with open(filePosition, "r") as read_file:
+        with open(filePosition + "\\key.json", "r") as read_file:
             data = json.load(read_file)
             return data["ip"], data["key"]
 
@@ -36,6 +36,14 @@ def readKey(filePosition):
 
 def saveKey(ip, key, filePosition):
     data = {"ip": ip, "key": key}
+    checkfolder(filePosition)
 
-    with open(filePosition, "w") as write_file:
+    with open(filePosition + "\\key.json", "w") as write_file:
         json.dump(data, write_file, indent=4)
+
+
+# se la cartella data non esiste la crea
+# la cartella madre deve esistere
+def checkfolder(path):
+    if not os.path.isdir(path):
+        os.mkdir(path)

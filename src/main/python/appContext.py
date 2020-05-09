@@ -1,5 +1,5 @@
 from fbs_runtime.application_context.PyQt5 import ApplicationContext
-
+import os
 
 class AppContext(ApplicationContext):
     def run(self):
@@ -7,3 +7,6 @@ class AppContext(ApplicationContext):
 
     def icon(self):
         return self.get_resource("images/icon.png")
+
+    def keyPath(self):
+        return os.getenv('USERPROFILE') + "\\.MiniMenu"

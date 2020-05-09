@@ -70,7 +70,7 @@ class SystemTrayIcon(QtWidgets.QSystemTrayIcon):
 
     # Read saved key
     def updateKey(self):
-        self.ip, self.key = helper.readKey(self.ctx.get_resource("key/key"))
+        self.ip, self.key = helper.readKey(self.ctx.keyPath())
 
     # Send comand to PiHole server and update interface
     def updateInterface(self, url):

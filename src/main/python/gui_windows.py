@@ -26,7 +26,7 @@ class App(QtWidgets.QMainWindow):
     def initUI(self):
         self.setWindowTitle(self.title)
 
-        self.ip, self.key = helper.readKey(self.ctx.get_resource("key/key"))
+        self.ip, self.key = helper.readKey(self.ctx.keyPath())
 
         # Create textbox
         self.textbox = QtWidgets.QLineEdit(self)
@@ -122,7 +122,7 @@ class App(QtWidgets.QMainWindow):
         key = self.textbox1.text()
 
         if ip != self.ip or key != self.key:
-            helper.saveKey(ip, key, self.ctx.get_resource("key/key"))
+            helper.saveKey(ip, key, self.ctx.keyPath())
 
         self.ip = ip
         self.key = key
