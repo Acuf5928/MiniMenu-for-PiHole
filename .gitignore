@@ -3,3 +3,7 @@
 __pycache__
 data.txt
 key
+target/**
+.pyc
+!target/installer
+!target/installer/Installer.nsi
