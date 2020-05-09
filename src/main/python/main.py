@@ -1,12 +1,4 @@
-import sys
+from src.main.python import gui_systray
 
-from PyQt5.QtWidgets import QMainWindow
-from fbs_runtime.application_context.PyQt5 import ApplicationContext
-
-if __name__ == '__main__':
-    appctxt = ApplicationContext()  # 1. Instantiate ApplicationContext
-    window = QMainWindow()
-    window.resize(250, 150)
-    window.show()
-    exit_code = appctxt.app.exec_()  # 2. Invoke appctxt.app.exec_()
-    sys.exit(exit_code)
+if __name__ == "__main__":
+    gui_systray.main()

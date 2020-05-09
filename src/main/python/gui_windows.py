@@ -10,10 +10,12 @@ from src.main.python import code_helper as helper
 
 class App(QtWidgets.QMainWindow):
 
-    def __init__(self):
+    def __init__(self, ctx):
         super().__init__()
 
-        self.setWindowIcon(QtGui.QIcon('icon.png'))
+        self.ctx = ctx
+
+        self.setWindowIcon(QtGui.QIcon(ctx.icon()))
         self.setMinimumSize(QtCore.QSize(500, 180))
         self.setMaximumSize(QtCore.QSize(500, 180))
 
@@ -24,7 +26,7 @@ class App(QtWidgets.QMainWindow):
     def initUI(self):
         self.setWindowTitle(self.title)
 
-        self.ip, self.key = helper.readKey()
+        self.ip, self.key = helper.readKey(self.ctx.get_resource("key/key"))
 
         # Create textbox
         self.textbox = QtWidgets.QLineEdit(self)
@@ -119,8 +121,8 @@ class App(QtWidgets.QMainWindow):
         ip = self.textbox.text()
         key = self.textbox1.text()
 
-        if (ip != self.ip or key != self.key):
-            helper.saveKey(ip, key)
+        if ip != self.ip or key != self.key:
+            helper.saveKey(ip, key, self.ctx.get_resource("key/key"))
 
         self.ip = ip
         self.key = key
