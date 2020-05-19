@@ -26,7 +26,7 @@ def ricercaInfo(url):
 
 def readKey(filePosition):
     try:
-        with open(filePosition + "\\key.json", "r") as read_file:
+        with open(filePosition + "/key.json", "r") as read_file:
             data = json.load(read_file)
             return data["ip"], data["key"]
 
@@ -38,7 +38,7 @@ def saveKey(ip, key, filePosition):
     data = {"ip": ip, "key": key}
     checkfolder(filePosition)
 
-    with open(filePosition + "\\key.json", "w") as write_file:
+    with open(filePosition + "/key.json", "w") as write_file:
         json.dump(data, write_file, indent=4)
 
 
